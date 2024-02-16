@@ -1,11 +1,11 @@
 from login.login import login
 from signUp.register import sign_up
 from find.find import list_status, find_status
+from blockchain.blockchain import Blockchain
 import sys
-import blockchain
 import json
 
-blockchainUse=blockchain.Blockchain()
+blockchainUse = Blockchain()
 initial_func_list = [{"quit", 0}, {"login", 1}, {"sign_up", 2}]  # 记录初始功能
 main_func_list = [
     {"quit", 0},
@@ -13,7 +13,7 @@ main_func_list = [
     {"list_status", 2},
     {"find", 3},
     {"borrow", 4},
-    {"return",5},
+    {"return", 5},
 ]  # 记录正式系统功能
 
 is_login = False
@@ -26,7 +26,7 @@ def wellcome():
 
 def list_function():
     print("{0:^10}\t{1:^10}".format("function", "key"))
-    
+
     if current_environment == "pre_login":
         for func, key in initial_func_list:
             print("{0:^9}\t{1:^9}".format(key, func))
@@ -38,7 +38,7 @@ def list_function():
 def Initial_step():
     global current_environment
     global usernameId
-    reslt=""
+    reslt = ""
     while True:
         cmd = input()
         match cmd:
@@ -47,41 +47,46 @@ def Initial_step():
                 return -1
             case "1":
                 reslt = login()
-                if reslt!="false":  # 登录成功
+                if reslt != "false":  # 登录成功
                     current_environment = "post_login"
-                    usernameId=reslt
+                    usernameId = reslt
             case "2":
                 sign_up()
             case "h":
                 list_function()
             case _:
                 print("wrong command, you can type [q] or [0] to quit or [h] for help")
-                
+
         if reslt:
             return 1
 
+
 def borrow():
-    borrowId = input("Please input the id of the equipment that you want to borrow, input 0 to quit")
-    
-    while (borrowId != "0"):
-        temp = [usernameId,borrowId,"borrow"]
+    borrowId = input(
+        "Please input the id of the equipment that you want to borrow, input 0 to quit"
+    )
+
+    while borrowId != "0":
+        temp = [usernameId, borrowId, "borrow"]
         blockchainUse.add_new_transaction(json.dumps(temp))
         borrowId = input("Any more to borrow? Input 0 to quit")
-        
+
     blockchainUse.mine()
 
-def return1():
-    returnId = input("Please input the id of the equipment that you want to return, input 0 to quit")
 
-    while (returnId != "0"):
+def return1():
+    returnId = input(
+        "Please input the id of the equipment that you want to return, input 0 to quit"
+    )
+
+    while returnId != "0":
         temp = [usernameId, returnId, "return"]
         blockchainUse.add_new_transaction(json.dumps(temp))
         returnId = input("Any more to return? Input 0 to quit")
 
     blockchainUse.mine()
-                     
 
-    
+
 def main_step():
     global current_environment
     print("Input h to be helped")
@@ -113,7 +118,7 @@ def main_step():
 def main():
     wellcome()
     list_function()
-    
+
     while True:
         if current_environment == "pre_login":
             if Initial_step() == -1:

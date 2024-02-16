@@ -79,7 +79,7 @@ class Blockchain:
         block.nonce = 0
 
         computed_hash = block.compute_hash()
-        while not computed_hash.startswith('0' * Blockchain.difficulty):
+        while not computed_hash.startswith("0" * Blockchain.difficulty):
             block.nonce += 1
             computed_hash = block.compute_hash()
 
@@ -94,8 +94,10 @@ class Blockchain:
         Check if block_hash is valid hash of block and satisfies
         the difficulty criteria.
         """
-        return (block_hash.startswith('0' * Blockchain.difficulty) and
-                block_hash == block.compute_hash())
+        return (
+            block_hash.startswith("0" * Blockchain.difficulty)
+            and block_hash == block.compute_hash()
+        )
 
     @classmethod
     def check_chain_validity(cls, chain):
@@ -108,8 +110,10 @@ class Blockchain:
             # using `compute_hash` method.
             delattr(block, "hash")
 
-            if not cls.is_valid_proof(block, block_hash) or \
-                    previous_hash != block.previous_hash:
+            if (
+                not cls.is_valid_proof(block, block_hash)
+                or previous_hash != block.previous_hash
+            ):
                 result = False
                 break
 
@@ -128,10 +132,12 @@ class Blockchain:
 
         last_block = self.last_block
 
-        new_block = Block(index=last_block.index + 1,
-                          transactions=self.unconfirmed_transactions,
-                          timestamp=time.time(),
-                          previous_hash=last_block.hash)
+        new_block = Block(
+            index=last_block.index + 1,
+            transactions=self.unconfirmed_transactions,
+            timestamp=time.time(),
+            previous_hash=last_block.hash,
+        )
 
         proof = self.proof_of_work(new_block)
         self.add_block(new_block, proof)
