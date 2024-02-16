@@ -69,6 +69,16 @@ def borrow():
         borrowId = input("Any more to borrow? Input 0 to quit")
         
     blockchainUse.mine()
+
+def return1():
+    returnId = input("Please input the id of the equipment that you want to return, input 0 to quit")
+
+    while (returnId != "0"):
+        temp = [usernameId, returnId, "return"]
+        blockchainUse.add_new_transaction(json.dumps(temp))
+        returnId = input("Any more to return? Input 0 to quit")
+
+    blockchainUse.mine()
                      
 
     
