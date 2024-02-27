@@ -6,15 +6,15 @@ import sys
 import json
 
 blockchainUse = Blockchain()
-initial_func_list = [{"quit", 0}, {"login", 1}, {"sign_up", 2}]  # 记录初始功能
-main_func_list = [
-    {"quit", 0},
-    {"logout", 1},
-    {"list_status", 2},
-    {"find", 3},
-    {"borrow", 4},
-    {"return", 5},
-]  # 记录正式系统功能
+initial_func_list = {0: "quit", 1:"login", 2:"sign_up"}  # 记录初始功能
+main_func_list = {
+    0:"quit",
+    1:"logout",
+    2:"list_status",
+    3:"find",
+    4:"borrow",
+    5:"return",
+}  # 记录正式系统功能
 
 is_login = False
 current_environment = "pre_login"  # 初始环境为登陆前
@@ -28,11 +28,11 @@ def list_function():
     print("{0:^10}\t{1:^10}".format("function", "key"))
 
     if current_environment == "pre_login":
-        for func, key in initial_func_list:
-            print("{0:^9}\t{1:^9}".format(key, func))
+        for key in initial_func_list:
+            print("{0:^9}\t{1:^9}".format(key, initial_func_list[key]))
     elif current_environment == "post_login":
-        for func, key in main_func_list:
-            print("{0:^9}\t{1:^9}".format(key, func))
+        for key in main_func_list:
+            print("{0:^9}\t{1:^9}".format(key, main_func_list[key]))
 
 
 def Initial_step():
