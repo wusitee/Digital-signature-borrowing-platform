@@ -14,4 +14,4 @@ python-Levenshtein==0.25.0
 rapidfuzz==3.6.1
 requests==2.31.0
 urllib3==2.2.0
-Werkzeug==3.0.1
+Werkzeug==3.0.3
